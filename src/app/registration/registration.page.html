@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Registrierung</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card id="regiCard">
+    <ion-item>
+      <ion-label>
+        Benutzername
+
+      </ion-label>
+      <ion-input
+              type="text"  [(ngModel)]="username">
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        E-Mail
+      </ion-label>
+      <ion-input
+              type="text"  [(ngModel)]="email">
+
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        Passwort
+      </ion-label>
+      <ion-input
+              type="text"  [(ngModel)]="password">
+
+      </ion-input>
+    </ion-item>
+    <ion-button
+            class="click" (click)="saveRegi()"
+            expand="block"
+            size="large"
+            color="warning"
+            strong="true">
+
+      REGISTRIEREN
+    </ion-button>
+    <ion-button fill="solid" id="back" routerLink="/login">
+      ZURÜCK
+    </ion-button>
+</ion-card>
+
+</ion-content>

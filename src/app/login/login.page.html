@@ -1,0 +1,108 @@
+
+
+<ion-header>
+    <ion-toolbar>
+
+    <ion-buttons slot="start">
+        <ion-button fill="solid" color="danger" (click)="removeKeys()">
+            DELETE
+        </ion-button>
+    </ion-buttons>
+    
+        <ion-title>
+            GG-GAMESTUDIOS <br>
+            Login
+        </ion-title>
+    </ion-toolbar>
+
+
+</ion-header>
+
+<ion-content>
+
+    <ion-card id="loginCard">
+        <ion-item>
+            <ion-label>
+                Benutzername
+            </ion-label>
+            <ion-input
+                    type="text" [(ngModel)]="username">
+
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-label>
+                Passwort
+            </ion-label>
+            <ion-input
+                    type="text" [(ngModel)]="password">
+
+            </ion-input>
+
+        </ion-item>
+        <ion-item>
+            <ion-button
+                    class="click" (click)="loginKnopfFunction()"
+                    expand="block"
+                    size="large"
+                    color="warning"
+                    strong="true"
+            >
+                Login!
+            </ion-button>
+            <ion-icon
+                    id="checkmark" name="checkmark-circle-outline"
+
+            ></ion-icon>
+
+        </ion-item>
+        <ion-card>
+            <ion-label id="teaser">
+                Sie haben noch keinen GG-Account?
+            
+                Registrieren Sie sich
+            </ion-label>
+            <ion-label class="regiLink" type="button" [routerLink]="'/registration'" routerDirection="forward">
+                HIER.
+            </ion-label>
+            <ion-button [routerLink]="'/registration'" routerDirection="forward">
+                Hier
+            </ion-button>
+            
+        </ion-card>
+    </ion-card>
+    <ion-button (click)="flip()"> flip </ion-button>
+    <div #number></div>
+    <ion-button expand="block" (click)="callAnime()">Anime.js</ion-button>
+    <div class="box">
+
+    </div>
+    <div class="box">
+
+    </div>
+    <div class="box">
+
+    </div>
+    <div class="box">
+
+    </div>
+    <div class="bux">
+
+    </div>
+    <div class="bux">
+
+    </div>
+    <div class="bux">
+
+    </div>
+    <div class="bux">
+
+    </div>
+    
+    
+
+</ion-content>
+
+
+

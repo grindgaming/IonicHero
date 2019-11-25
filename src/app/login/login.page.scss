@@ -1,0 +1,109 @@
+ion-content {
+    background-image: url(/assets/img/hero.png);
+    overflow: hidden;
+    background-size: 15%;
+  }
+  
+
+#checkmark {
+    font-size: 500%;
+    color: #10dc60;
+  }
+
+#loginCard{ 
+    
+    width: 80%; 
+    margin-top: 10%; 
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-right: 10%;
+    background-color: rgba(107,107,107,0.9);
+}
+
+ #regiCard{ 
+    width: 60%; 
+    margin: 0; 
+  }
+
+#teaser {
+    color: white;
+}
+  
+ion-progress-bar{
+    height: 40px;
+}
+
+
+
+  ion-input{
+
+  }
+
+  .button.click{
+    width: 75%;
+  }
+
+
+  .regiLink{
+    cursor: pointer;
+    color: #4c8dff;
+  }    
+
+  ion-footer {
+      margin-bottom: 10%;
+  }
+
+  .animate-me {
+    width: 50px;
+    height: 50px;
+    padding: 20px;
+    background: #0000ff;
+}
+
+.box {
+  width: 40px;
+    height: 40px;
+    margin: 5px;
+    padding: 5px;
+    background: #0000ff;
+}
+
+.bux {
+  width: 40px;
+    height: 40px;
+    margin: 5px;
+    padding: 5px;
+    background: red;
+}
+
+
+
+.animation-wrapper {
+  width: 10%;
+  padding-bottom: 50%;
+}
+
+.sphere-animation {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 580px;
+  height: 580px;
+  margin: -290px 0 0 -290px;
+  
+}
+
+.sphere path {
+  fill: url(#sphereGradient);
+  stroke-width: 1px;
+  stroke: rgba(80,80,80,.35);
+  backface-visibility: hidden;
+}
+
+@media (min-width: 500px) {
+  .sphere path {
+    stroke-width: .4px;
+  }
+}

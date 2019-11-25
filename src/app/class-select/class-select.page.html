@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Klassen</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+
+  <ion-slides id="slides" #mySlides scrollbar="true">
+    <ion-slide>
+      <ion-card class="classCard"> 
+        <ion-img  src="assets/img/krieger.png"></ion-img>
+        <ion-button class="button" color="danger" (click)="kriegerAlert()">Krieger</ion-button> 
+        <ion-button class="next"  (click)="swipeNext()"><ion-icon name="arrow-dropright-circle"></ion-icon></ion-button>
+
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card id="archer" class="classCard">
+        <ion-img src="assets/img/waldlaufer.png"></ion-img>
+        <ion-button class="button" color="success" (click)="waldlauferAlert()">Waldläufer</ion-button> 
+        <ion-button class="prev"  (click)="swipePrev()"><ion-icon name="arrow-dropleft-circle"></ion-icon></ion-button>
+        <ion-button class="next"  (click)="swipeNext()"><ion-icon name="arrow-dropright-circle"></ion-icon></ion-button>
+
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card class="classCard">
+        <ion-img src="assets/img/magier.png"></ion-img>
+        <ion-button class="button" (click)="magierAlert()">Magier</ion-button>  
+        <ion-button class="prev"  (click)="swipePrev()"><ion-icon name="arrow-dropleft-circle"></ion-icon></ion-button>
+
+
+      </ion-card>
+    </ion-slide>    
+  </ion-slides> 
+
+
+ 
+   
+</ion-content>
