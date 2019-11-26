@@ -9,6 +9,7 @@ import { WeaponModel } from '../models/weapon-model';
 import { IonSlides} from '@ionic/angular';
 import { ViewChild} from '@angular/core';
 import anime from 'animejs/lib/anime.es';
+import { AlertController} from '@ionic/angular';
 
 
 @Component({
@@ -34,7 +35,8 @@ export class ShopPage implements OnInit {
       public router: Router, public activatedRoute: ActivatedRoute,
       private storage: Storage, public platform: Platform,
       private modalController: ModalController,
-      private navParams: NavParams
+      private navParams: NavParams,
+      public alertController: AlertController
   ) {
     this.weaponToggle = true;
         this.helmetToggle = false;
@@ -325,6 +327,50 @@ export class ShopPage implements OnInit {
             this.feetToggle = true;
         }
     }
+
+
+  async strengthAlert() {
+    const alert = await this.alertController.create({
+      header: 'Stärke',
+      message: 'Der Stärkewert beschreibt die Chance auf einen Kritischen-Treffer, oder einen Block des gegnerischen Angriffs',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',      
+        }
+      ]
+    });
+    await alert.present();
+ }
+ async agillityAlert() {
+    const alert = await this.alertController.create({
+      header: 'Beweglichkeit',
+      message: 'Der Beweglichkeitswert beschreibt die Chance auf einen Doppelten-Treffer, oder einem Ausweichen des gegnerischen Angriffs',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',      
+        }
+      ]
+    });
+    await alert.present();
+ }  
+ async intelligenceAlert() {
+    const alert = await this.alertController.create({
+      header: 'Intelligenz',
+      message: 'Der Intelligenzwert beschreibt die Chance einen DoT-Effekt(Damage over time) zu erzielen, oder dem Zurückwerfen des gegnerischen Angriffs',
+      buttons: [
+        {
+          text: 'Ok',
+          role: 'cancel',
+          cssClass: 'secondary',      
+        }
+      ]
+    });
+    await alert.present();
+ }    
     
   swipeNext() {
         this.slides.slideNext();
