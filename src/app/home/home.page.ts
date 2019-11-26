@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalController, Platform} from '@ionic/angular';
+import {ShopPage} from '../shop/shop.page'
 import {Storage} from '@ionic/storage';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccountModel} from '../models/account-model';
@@ -24,7 +25,7 @@ import Flip from 'number-flip';
 export class HomePage implements OnInit {
 
     @ViewChild("mySlides", {static:false}) slides: IonSlides;
-   
+    
 
     public account: AccountModel;
     public shopToggle: boolean;
@@ -45,7 +46,11 @@ export class HomePage implements OnInit {
     public h: number;
     
 
-    constructor(public router: Router, public activatedRoute: ActivatedRoute, private storage: Storage,public platform: Platform) {
+    constructor(
+        public router: Router, public activatedRoute: ActivatedRoute, 
+        private storage: Storage,public platform: Platform,
+        public modalController: ModalController
+        ) {
         this.weaponToggle = true;
         this.helmetToggle = false;
         this.chestToggle = false;
@@ -65,7 +70,15 @@ export class HomePage implements OnInit {
         
     }
 
-    
+    async openModal() {
+        const modal = await this.modalController.create({
+            component: ShopPage,
+            
+        });
+        
+        return await modal.present();
+    }
+
     //===================================================================================================
     //===================================================================================================
     //** ======== N O R M A L ===  A T T A C K ==========================================================
@@ -1010,18 +1023,6 @@ export class HomePage implements OnInit {
     }
 
     ngOnInit() {   
-            
-        this.currentMessage = 4;
-        this.shopToggle = true;
-        this.hideShop();
-        anime({
-            targets: '.test',
-            keyframes: [
-            {translateX: 300},
-            {translateY: 300}
-            ],
-            duration: 100
-        });
         
     }
 

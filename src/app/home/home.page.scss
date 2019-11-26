@@ -29,10 +29,6 @@
     margin-bottom: 0px;
 }
 
-#statsCard > ion-list>ion-item {
-    padding-top: none !important;
-}
-
 #enemyCard {
     margin-left: auto;
     margin-right: auto;
@@ -89,12 +85,18 @@
     padding: 0px;
 }
 
+#goldChip {
+    margin-top: 3%;
+    float: right;
+    size: 130%;
+    font-size: 120%;
+    font-style: bold;
+}
+
 #statList {
     height: 100%;
     margin: 0px;
     margin-top: 13%;
-    
-
 }
 
 .inventory-col {

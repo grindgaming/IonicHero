@@ -6,7 +6,7 @@ import {RouterModule} from '@angular/router';
 
 import {HomePage} from './home.page';
 import {IonicStorageModule} from '@ionic/storage';
-import { TabBarComponentModule } from '../tab-bar/tab-bar.module';
+
 
 @NgModule({
     imports: [
@@ -20,7 +20,7 @@ import { TabBarComponentModule } from '../tab-bar/tab-bar.module';
                 component: HomePage
             }
         ]),
-        TabBarComponentModule
+        
     ],
     declarations: [HomePage]
 })
