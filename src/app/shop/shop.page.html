@@ -1,0 +1,939 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-button color="danger" (click)="closeModal()">Zurück</ion-button>
+    <ion-title>Ausrüstung</ion-title>
+     <ion-chip id="goldChip" color="warning" (click)="addGold()">
+        Gold: {{ this.account.savestate.gold }}
+      </ion-chip>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>  
+    
+
+    <ion-card id="equipment">
+        <ion-slides id="slides" #mySlides scrollbar="true">
+          <ion-slide>
+            <ion-grid>
+              <h1>Charakterinfo</h1>
+              <br />
+              <ion-row>
+                <ion-col>
+                  <ion-card id="statList">
+                    <ion-item>
+                      Rüstungswert: {{ this.account.savestate.hero.def }}
+                    </ion-item>
+                    <ion-item>
+                      Stärke:
+                      {{
+                        this.account.savestate.hero.strength *
+                          this.account.savestate.hero.strengthMulti
+                      }}%
+                    </ion-item>
+                    <ion-item>
+                      Beweglichkeit:
+                      {{
+                        this.account.savestate.hero.agillity *
+                          this.account.savestate.hero.agillityMulti
+                      }}%
+                    </ion-item>
+                    <ion-item>
+                      Intelligenz:
+                      {{
+                        this.account.savestate.hero.intelligence *
+                          this.account.savestate.hero.intelligenceMulti
+                      }}%
+                    </ion-item>
+                  </ion-card>
+
+                  <ion-button class="next" (click)="swipeNext()">
+                    <ion-icon name="arrow-dropright-circle"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-slide>
+          <ion-slide>
+            <ion-grid>
+              <h1 style="bold">Inventar</h1>
+
+              <ion-row>
+                <ion-col class="inventory-col">
+                  <ion-card class="armorCard">
+                    <br />
+                    <ion-img
+                      class="inventory-icon"
+                      src="assets/img/weapon_icon.png"
+                    ></ion-img>
+                    <ion-label class="type-label">
+                      Waffe
+                    </ion-label>
+                    <ion-label class="stat-label">
+                      DMG:
+                      {{ this.account.savestate.hero.weapon.dmg }}
+                    </ion-label>
+                    <br />
+                    <ion-item class="inventory-item">
+                      {{ this.account.savestate.hero.weapon.titel }}
+                      aus {{ this.account.savestate.hero.weapon.material }}
+                    </ion-item>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col class="inventory-col">
+                  <ion-card class="armorCard">
+                    <br />
+                    <ion-img
+                      class="inventory-icon"
+                      src="assets/img/head_icon.png"
+                    ></ion-img>
+                    <ion-label class="type-label">
+                      Kopf
+                    </ion-label>
+                    <ion-label class="stat-label">
+                      Rüstungswert:
+                      {{ this.account.savestate.hero.helmet.armor }}
+                    </ion-label>
+                    <br />
+                    <ion-item class="inventory-item">
+                      {{ this.account.savestate.hero.helmet.titel }}r
+                      {{ this.account.savestate.hero.helmet.material }}-Helm
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.helmet.attr == 1"
+                      >
+                        <ion-chip class="inventoryChip" color="danger">
+                          STR
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.helmet.attr == 2"
+                      >
+                        <ion-chip class="inventoryChip" color="success">
+                          AGI
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.helmet.attr == 3"
+                      >
+                        <ion-chip class="inventoryChip" color="primary">
+                          INT
+                        </ion-chip>
+                      </ng-template>
+                    </ion-item>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col class="inventory-col">
+                  <ion-card class="armorCard">
+                    <br />
+                    <ion-img
+                      class="inventory-icon"
+                      src="assets/img/chest_icon.png"
+                    ></ion-img>
+                    <ion-label class="type-label">
+                      Oberkörper
+                    </ion-label>
+                    <ion-label class="stat-label">
+                      Rüstungswert:
+                      {{ this.account.savestate.hero.chest.armor }}
+                    </ion-label>
+                    <br />
+                    <ion-item class="inventory-item">
+                      {{ this.account.savestate.hero.chest.titel }}r
+                      {{
+                        this.account.savestate.hero.chest.material
+                      }}-Brustpanzer
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.chest.attr == 1"
+                      >
+                        <ion-chip class="inventoryChip" color="danger">
+                          STR
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.chest.attr == 2"
+                      >
+                        <ion-chip class="inventoryChip" color="success">
+                          AGI
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.chest.attr == 3"
+                      >
+                        <ion-chip class="inventoryChip" color="primary">
+                          INT
+                        </ion-chip>
+                      </ng-template>
+                    </ion-item>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col class="inventory-col">
+                  <ion-card class="armorCard">
+                    <br />
+                    <ion-img
+                      class="inventory-icon"
+                      src="assets/img/arm_icon.png"
+                    ></ion-img>
+                    <ion-label class="type-label">
+                      Arme
+                    </ion-label>
+                    <ion-label class="stat-label">
+                      Rüstungswert:
+                      {{ this.account.savestate.hero.arms.armor }}
+                    </ion-label>
+                    <br />
+                    <ion-item class="inventory-item">
+                      {{ this.account.savestate.hero.arms.titel }}
+                      {{
+                        this.account.savestate.hero.arms.material
+                      }}-Armschienen
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.arms.attr == 1"
+                      >
+                        <ion-chip class="inventoryChip" color="danger">
+                          STR
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.arms.attr == 2"
+                      >
+                        <ion-chip class="inventoryChip" color="success">
+                          AGI
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.arms.attr == 3"
+                      >
+                        <ion-chip class="inventoryChip" color="primary">
+                          INT
+                        </ion-chip>
+                      </ng-template>
+                    </ion-item>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col class="inventory-col">
+                  <ion-card class="armorCard">
+                    <br />
+                    <ion-img
+                      class="inventory-icon"
+                      src="assets/img/legs_icon.png"
+                    ></ion-img>
+                    <ion-label class="type-label">
+                      Beine
+                    </ion-label>
+                    <ion-label class="stat-label">
+                      Rüstungswert:
+                      {{ this.account.savestate.hero.legs.armor }}
+                    </ion-label>
+                    <br />
+                    <ion-item class="inventory-item">
+                      {{ this.account.savestate.hero.legs.titel }}
+                      {{
+                        this.account.savestate.hero.legs.material
+                      }}-Beinschienen
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.legs.attr == 1"
+                      >
+                        <ion-chip class="inventoryChip" color="danger">
+                          STR
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.legs.attr == 2"
+                      >
+                        <ion-chip class="inventoryChip" color="success">
+                          AGI
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.legs.attr == 3"
+                      >
+                        <ion-chip class="inventoryChip" color="primary">
+                          INT
+                        </ion-chip>
+                      </ng-template>
+                    </ion-item>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col class="inventory-col">
+                  <ion-card class="armorCard">
+                    <br />
+                    <ion-img
+                      class="inventory-icon"
+                      src="assets/img/feet_icon.png"
+                    ></ion-img>
+                    <ion-label class="type-label">
+                      Füße
+                    </ion-label>
+                    <ion-label class="stat-label">
+                      Rüstungswert:
+                      {{ this.account.savestate.hero.feet.armor }}
+                    </ion-label>
+                    <br />
+                    <ion-item class="inventory-item">
+                      {{ this.account.savestate.hero.feet.titel }}
+                      {{ this.account.savestate.hero.weapon.material }}-Stiefel
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.feet.attr == 1"
+                      >
+                        <ion-chip class="inventoryChip" color="danger">
+                          STR
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.feet.attr == 2"
+                      >
+                        <ion-chip class="inventoryChip" color="success">
+                          AGI
+                        </ion-chip>
+                      </ng-template>
+                      <ng-template
+                        [ngIf]="this.account.savestate.hero.feet.attr == 3"
+                      >
+                        <ion-chip class="inventoryChip" color="primary">
+                          INT
+                        </ion-chip>
+                      </ng-template>
+                    </ion-item>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+              <br />
+              <ion-button class="prev" (click)="swipePrev()">
+                <ion-icon name="arrow-dropleft-circle"></ion-icon>
+              </ion-button>
+
+              <ion-button class="next" (click)="swipeNext()">
+                <ion-icon name="arrow-dropright-circle"></ion-icon>
+              </ion-button>
+            </ion-grid>
+          </ion-slide>
+          <ion-slide>
+            <ion-grid>
+              <h1>Ausrüstungsverkauf</h1>
+              <br />
+              <ion-row id="segment-row">
+                <ion-segment id="segment">
+                  <ion-segment-button
+                    class="segment-button checked"
+                    (click)="equipToggle(1)"
+                  >
+                    <ion-img
+                      class="shop-icon"
+                      src="assets/img/weapon_icon.png"
+                    ></ion-img>
+                  </ion-segment-button>
+
+                  <ion-segment-button
+                    class="segment-button"
+                    (click)="equipToggle(2)"
+                  >
+                    <ion-img
+                      class="shop-icon"
+                      src="assets/img/head_icon.png"
+                    ></ion-img>
+                  </ion-segment-button>
+                  <ion-segment-button
+                    class="segment-button"
+                    (click)="equipToggle(3)"
+                  >
+                    <ion-img
+                      class="shop-icon"
+                      src="assets/img/chest_icon.png"
+                    ></ion-img>
+                  </ion-segment-button>
+                  <ion-segment-button
+                    class="segment-button"
+                    (click)="equipToggle(4)"
+                  >
+                    <ion-img
+                      class="shop-icon"
+                      src="assets/img/arm_icon.png"
+                    ></ion-img>
+                  </ion-segment-button>
+                  <ion-segment-button
+                    class="segment-button"
+                    (click)="equipToggle(5)"
+                  >
+                    <ion-img
+                      class="shop-icon"
+                      src="assets/img/legs_icon.png"
+                    ></ion-img>
+                  </ion-segment-button>
+                  <ion-segment-button
+                    class="segment-button"
+                    (click)="equipToggle(6)"
+                  >
+                    <ion-img
+                      class="shop-icon"
+                      src="assets/img/feet_icon.png"
+                    ></ion-img>
+                  </ion-segment-button>
+                </ion-segment>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ng-template [ngIf]="this.weaponToggle == true">
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopWeapons[0].titel }} aus
+                        {{ this.account.savestate.shopWeapons[0].material }}
+                      </ion-item>
+                      <ion-item>
+                        Schaden: {{ this.account.savestate.shopWeapons[0].dmg }}
+                        <ion-chip
+                          (click)="buyWeapon(0)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopWeapons[0].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopWeapons[1].titel }} aus
+                        {{ this.account.savestate.shopWeapons[1].material }}
+                      </ion-item>
+                      <ion-item>
+                        Schaden: {{ this.account.savestate.shopWeapons[1].dmg }}
+                        <ion-chip
+                          (click)="buyWeapon(1)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopWeapons[1].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopWeapons[2].titel }} aus
+                        {{ this.account.savestate.shopWeapons[2].material }}
+                      </ion-item>
+                      <ion-item>
+                        Schaden: {{ this.account.savestate.shopWeapons[2].dmg }}
+                        <ion-chip
+                          (click)="buyWeapon(2)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopWeapons[2].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopWeapons[3].titel }} aus
+                        {{ this.account.savestate.shopWeapons[3].material }}
+                      </ion-item>
+                      <ion-item>
+                        Schaden: {{ this.account.savestate.shopWeapons[3].dmg }}
+                        <ion-chip
+                          (click)="buyWeapon(3)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopWeapons[3].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                  </ng-template>
+                  <ng-template [ngIf]="this.helmetToggle == true">
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[0].titel }}r
+                        <br />
+                        {{ this.account.savestate.shopArmors[0].material }}-Helm
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[0].armor }}
+                        <ion-chip
+                          (click)="buyArmor(0)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[0].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[5].titel }}r
+                        <br />
+                        {{ this.account.savestate.shopArmors[5].material }}-Helm
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[5].armor }}
+                        <ion-chip
+                          (click)="buyArmor(5)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[5].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="danger">
+                          +5% Stärke
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[10].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[10].material
+                        }}-Helm
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[10].armor }}
+                        <ion-chip
+                          (click)="buyArmor(10)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[10].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="success">
+                          +5% Beweglichkeit
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[15].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[15].material
+                        }}-Helm
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[15].armor }}
+                        <ion-chip
+                          (click)="buyArmor(15)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[15].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="primary">
+                          +5% Intelligenz
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                  </ng-template>
+                  <ng-template [ngIf]="this.chestToggle == true">
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[1].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[1].material
+                        }}-Brustpanzer
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[1].armor }}
+                        <ion-chip
+                          (click)="buyArmor(1)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[1].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[6].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[6].material
+                        }}-Brustpanzer
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[6].armor }}
+                        <ion-chip
+                          (click)="buyArmor(6)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[6].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="danger">
+                          +5% Stärke
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[11].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[11].material
+                        }}-Brustpanzer
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[11].armor }}
+                        <ion-chip
+                          (click)="buyArmor(11)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[11].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="success">
+                          +5% Beweglichkeit
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[16].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[16].material
+                        }}-Brustpanzer
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[16].armor }}
+                        <ion-chip
+                          (click)="buyArmor(16)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[16].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="primary">
+                          +5% Intelligenz
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                  </ng-template>
+                  <ng-template [ngIf]="this.armsToggle == true">
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[2].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[2].material
+                        }}-Armschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[2].armor }}
+                        <ion-chip
+                          (click)="buyArmor(2)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[2].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[7].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[7].material
+                        }}-Armschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[7].armor }}
+                        <ion-chip
+                          (click)="buyArmor(7)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[7].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="danger">
+                          +5% Stärke
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[12].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[12].material
+                        }}-Armschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[12].armor }}
+                        <ion-chip
+                          (click)="buyArmor(12)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[12].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="success">
+                          +5% Beweglichkeit
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[17].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[17].material
+                        }}-Armschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[17].armor }}
+                        <ion-chip
+                          (click)="buyArmor(17)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[17].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="primary">
+                          +5% Intelligenz
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                  </ng-template>
+                  <ng-template [ngIf]="this.legsToggle == true">
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[3].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[3].material
+                        }}-Beinschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[3].armor }}
+                        <ion-chip
+                          (click)="buyArmor(3)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[3].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[8].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[8].material
+                        }}-Beinschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[8].armor }}
+                        <ion-chip
+                          (click)="buyArmor(8)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[8].price }}
+                        </ion-chip>
+                        <ion-chip disabled class="priceChip" color="danger">
+                          +5% Stärke
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[13].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[13].material
+                        }}-Beinschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[13].armor }}
+                        <ion-chip
+                          (click)="buyArmor(13)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[13].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="success">
+                          +5% Beweglichkeit
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[18].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[18].material
+                        }}-Beinschienen
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[18].armor }}
+                        <ion-chip
+                          (click)="buyArmor(18)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[18].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="primary">
+                          +5% Intelligenz
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                  </ng-template>
+                  <ng-template [ngIf]="this.feetToggle == true">
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[4].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[4].material
+                        }}-Stiefel
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[4].armor }}
+                        <ion-chip
+                          (click)="buyArmor(4)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[4].price }}
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[9].titel }}
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[9].material
+                        }}-Stiefel
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[9].armor }}
+                        <ion-chip
+                          (click)="buyArmor(9)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[9].price }}
+                        </ion-chip>
+                        <ion-chip disabled class="priceChip" color="danger">
+                          +5% Stärke
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[14].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[14].material
+                        }}-Stiefel
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[14].armor }}
+                        <ion-chip
+                          (click)="buyArmor(14)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[14].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="success">
+                          +5% Beweglichkeit
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                    <ion-card class="shopItemCard">
+                      <ion-item>
+                        {{ this.account.savestate.shopArmors[19].titel }}r
+                        <br />
+                        {{
+                          this.account.savestate.shopArmors[19].material
+                        }}-Helm
+                      </ion-item>
+                      <ion-item>
+                        Rüstungswert:
+                        {{ this.account.savestate.shopArmors[19].armor }}
+                        <ion-chip
+                          (click)="buyArmor(19)"
+                          class="priceChip"
+                          color="warning"
+                        >
+                          Preis:
+                          {{ this.account.savestate.shopArmors[19].price }}
+                        </ion-chip>
+                        <ion-chip class="priceChip" color="primary">
+                          +5% Intelligenz
+                        </ion-chip>
+                      </ion-item>
+                    </ion-card>
+                  </ng-template>
+                </ion-col>
+              </ion-row>
+              <ion-row>
+                <ion-col>
+                  <ion-button class="prev" (click)="swipePrev()">
+                    <ion-icon name="arrow-dropleft-circle"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-slide>
+        </ion-slides>
+      </ion-card>   
+  </ion-content>
