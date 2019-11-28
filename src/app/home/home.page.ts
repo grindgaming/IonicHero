@@ -13,20 +13,16 @@ import { ViewChild } from '@angular/core';
 import anime from 'animejs/lib/anime.es';
 import Flip from 'number-flip';
 
-
-
 @Component({
     selector: 'app-home',
     templateUrl: 'home.page.html',
     styleUrls: ['home.page.scss'],
 })
 
-
 export class HomePage implements OnInit {
 
     @ViewChild("mySlides", {static:false}) slides: IonSlides;
     
-
     public account: AccountModel;
     public shopToggle: boolean;
     public weaponToggle: boolean;
@@ -44,8 +40,8 @@ export class HomePage implements OnInit {
     public goldCounter: number;
     public w: number;
     public h: number;
+    public specialCooldown: number;
     
-
     constructor(
         public router: Router, public activatedRoute: ActivatedRoute, 
         private storage: Storage,public platform: Platform,
@@ -58,38 +54,37 @@ export class HomePage implements OnInit {
         this.legsToggle = false;
         this.feetToggle = false;
         this.currentMessage = 4;
+        this.specialCooldown = 0;
         this.w = this.platform.width();
-        this.h = this.platform.height();
-        
+        this.h = this.platform.height();       
         this.account = new AccountModel('a','a','a');
         this.storage.get('currentAccount').then((val) => {
             this.account = val;
-
             this.storage.set('currentAccount',this.account);
-        })      
-        
+        })            
     }
-
     async openModal() {
         const modal = await this.modalController.create({
-            component: ShopPage,
-            
-        });
-        
+            component: ShopPage,           
+        });      
         return await modal.present();
     }
-
+    decreaseCooldown() {
+        if(this.specialCooldown > 0){
+            this.specialCooldown -= 1;
+        }
+    }
     //===================================================================================================
     //===================================================================================================
     //** ======== N O R M A L ===  A T T A C K ==========================================================
     //===================================================================================================
         normalAttack() {
+            this.decreaseCooldown();
         this.storage.get('currentAccount').then((val) => {
             this.account = val;
             let savestate = this.account.savestate;
             const lvl = savestate.level;
-            this.shakeEnemy();
-            
+            this.shakeEnemy();       
              savestate.enemys = [
                     new EnemyModel(lvl*12,lvl*12,'Gewöhnlicher Borg'),
                     new EnemyModel(lvl*12,lvl*14,'Fetter Borg'),
@@ -101,9 +96,7 @@ export class HomePage implements OnInit {
 //==========================
 //======= G E G N E R - T O T ====
 //========================
-
-                this.shakeEnemy();
-                
+                this.shakeEnemy();        
                 savestate.gold += savestate.eMaxHP;
                 savestate.totalxp += savestate.eMaxHP*10;
                 if(savestate.totalxp >= savestate.nextThreshhold) {
@@ -113,32 +106,24 @@ export class HomePage implements OnInit {
                     savestate.level += 1;
                     savestate.hero.maxHp += 10;
                     savestate.totalxp = 0;
-                    savestate.nextThreshhold = savestate.expThreshholds[savestate.level];
-                    
-                    savestate.enemys = [
-                    
+                    savestate.nextThreshhold = savestate.expThreshholds[savestate.level];          
+                    savestate.enemys = [                
                     new EnemyModel(lvl*12,lvl*12,'Gewöhnlicher Borg'),
                     new EnemyModel(lvl*12,lvl*14,'Fetter Borg'),
                     new EnemyModel(lvl*14,lvl*12,'Dünner Borg'),
                     new EnemyModel(lvl*14,lvl*14,'Borg Häuptling'),
-                    new EnemyModel(lvl*5,lvl*5,'Baby Borg'),
-                    
-                    
+                    new EnemyModel(lvl*5,lvl*5,'Baby Borg'),                    
                      ]; 
                 }//=============================
-
                 savestate.currentEnemy = savestate.enemys[Math.floor(Math.random()*5)];
                 savestate.eHP = savestate.currentEnemy.hp;
                 savestate.eMaxHP = savestate.currentEnemy.maxHp;
-                savestate.hero.hp = savestate.hero.maxHp;
-
-                
+                savestate.hero.hp = savestate.hero.maxHp;  
 //====================================               
             }else {
         //===================================
         //============ A N G R I F F ========
         //==================================
-
                 const dmg = savestate.hero.weapon.dmg;
                 let strengthRoll: number = Math.floor(Math.random() * 101);
                 let agillityRoll: number = Math.floor(Math.random() * 101);
@@ -149,53 +134,40 @@ export class HomePage implements OnInit {
                 const sleep = (milliseconds) => {
                     return new Promise(resolve => setTimeout(resolve, milliseconds))
                 }
-                
-
-                if(this.dot >0){   //============ WENN DOT AKTIV
-                                   
-
-                    
+                if(this.dot >0){   //============ WENN DOT AKTIV    
                     if(savestate.hero.klasse=="Krieger"){
                         this.setMessage(`Dein Gegner blutet stark! -${dmg} HP`);
+                        sleep(1700).then(() => {
                         savestate.eHP -= dmg;
                         this.dot -= 1;
+                        })
                     }
                     if(savestate.hero.klasse=="Waldläufer"){
                         this.setMessage(`Dein Gegner ist geschwächt durch dein Gift! -${dmg} HP`);
+                        sleep(1700).then(() => {
                         savestate.eHP -= dmg;
-
+                        })
                         this.dot -= 1;
                     }
                     if(savestate.hero.klasse=="Magier"){
                         this.setMessage(`Dein Gegner steht in Flammen! -${dmg} HP`);
+                        sleep(1700).then(() => {
                         savestate.eHP -= dmg;
                         this.dot -= 1;
-                    }
-                    sleep(1000).then(() => {
-                        //do stuff
-                    })
-                }
-                
+                        })
+                    }         
+                }        
                 //========== C R I T ? === S W I F T ? === D O T ? =====
                 //=========== KLASSEN MULTIPLIKATOR ================
-                
-
-                if(strengthRoll <= savestate.hero.strength*savestate.hero.strengthMulti) {
-                    
-                        crit = true;
-                    
+                if(strengthRoll <= savestate.hero.strength*savestate.hero.strengthMulti) {                  
+                        crit = true;             
                 }
-                if(agillityRoll <= savestate.hero.agillity*savestate.hero.agillityMulti) {
-                    
-                        crit = true;
-                    
+                if(agillityRoll <= savestate.hero.agillity*savestate.hero.agillityMulti) {         
+                        swift = true;               
                 }
-                if(intelligenceRoll <= savestate.hero.intelligence*savestate.hero.intelligenceMulti) {
-                    
-                        crit = true;
-                    
+                if(intelligenceRoll <= savestate.hero.intelligence*savestate.hero.intelligenceMulti) {                 
+                        dot = true;            
                 }
-
                 //===================================
                 //======== D A M A G E === U N D ==== S P E C I A L E V E N T S ======
                 if(crit){
@@ -203,16 +175,12 @@ export class HomePage implements OnInit {
                         if(dot){
                             this.dot = 2*savestate.hero.intelligenceMulti;
                             this.setMessage(`Meisterleistung! -${dmg*4} HP + DoT: ${this.dot} Runden`);
-                             
-                                savestate.eHP -= dmg*2;        
-                                
-                                savestate.eHP -= dmg*2;
-                                                    
+                                savestate.eHP -= dmg*2;         
+                                savestate.eHP -= dmg*2;                           
                         }else{
                             this.setMessage(`Doppelter Kritischer Treffer! -${ dmg*4 } HP`);                 
                             (async () => {     
-                                savestate.eHP -= dmg*2;        
-                                
+                                savestate.eHP -= dmg*2;                     
                                 savestate.eHP -= dmg*2;
                             })(); 
                         }
@@ -229,16 +197,14 @@ export class HomePage implements OnInit {
                     if(dot){
                         this.setMessage(`Doppelter Treffer! + DoT  -${dmg * 2} HP`);  
                         (async () => {     
-                            savestate.eHP -= dmg;        
-                             
+                            savestate.eHP -= dmg;                
                             savestate.eHP -= dmg;
                         })();
                         this.dot = 2*savestate.hero.intelligenceMulti;          
                     }else {   
                         (async () => {  
                             this.setMessage(`Doppelter Treffer:  -${dmg*2} HP`);
-                            savestate.eHP -= dmg;     
-                                  
+                            savestate.eHP -= dmg;            
                             savestate.eHP -= dmg;       
                         })();             
                     }
@@ -249,10 +215,8 @@ export class HomePage implements OnInit {
                     this.setMessage(`Normaler Treffer: -${dmg} HP + DoT: ${this.dot} Runden`);            
                 }else{
                     savestate.eHP -= dmg;
-                    this.setMessage(`Normaler Treffer: -${dmg} HP`);
-                    
-                }
-                
+                    this.setMessage(`Normaler Treffer: -${dmg} HP`);     
+                }         
                 strengthRoll = Math.floor(Math.random() * 100) +1;
                 agillityRoll = Math.floor(Math.random() * 100) +1;
                 intelligenceRoll = Math.floor(Math.random() * 100)+1;
@@ -273,30 +237,38 @@ export class HomePage implements OnInit {
                 }
                 console.log(crit);
                 console.log(swift);
-                console.log(dot);
-
-                
-
-                    
-                    if(dot){
+                console.log(dot);   
+                if(dot){
                     savestate.eHP -= savestate.currentEnemy.attack;
-                    this.setMessage(`Du hast den Angriff des Gegners reflektiert!`);
+                    sleep(1700).then(() => {
+                        this.setMessage(`Du hast den Angriff des Gegners reflektiert!`);
+                    })
                 }else if(swift){
-                    this.setMessage(`Du weichst dem Angriff des Gegners gekonnt aus!`);
+                    sleep(1700).then(() => {
+                        this.setMessage(`Du weichst dem Angriff des Gegners gekonnt aus!`);
+                    })
                 }else if(crit){
                     if(((savestate.currentEnemy.attack - savestate.hero.def)/1.5) <= 0){
-                        this.setMessage('Du blockst den Angriff deines Gegners erfolgreich!');
+                        sleep(1700).then(() => {
+                            this.setMessage('Du blockst den Angriff deines Gegners erfolgreich!');
+                        })
                     }else{
                     savestate.hero.hp -= ((savestate.currentEnemy.attack - savestate.hero.def)/1.5 );
-                    this.setMessage(`Du versuchst den Angriff des Gegners zu blocken! -${((savestate.currentEnemy.attack - savestate.hero.def)/1.5).toFixed(2)}`);
-                    this.shakeHero();
+                    sleep(1700).then(() => {
+                        this.setMessage(`Du versuchst den Angriff des Gegners zu blocken! -${((savestate.currentEnemy.attack - savestate.hero.def)/1.5).toFixed(2)}`);
+                        this.shakeHero();
+                    })
                     }
                 }else{
                     if(savestate.currentEnemy.attack - savestate.hero.def <= 0){
+                        sleep(1700).then(() => {
                         this.setMessage('Der Treffer deines Gegners konnte dir nichtmal einen Kratzer zufügen...');
+                        })
                     }else{
                     savestate.hero.hp -= (savestate.currentEnemy.attack - savestate.hero.def);
+                    sleep(1700).then(() => {
                     this.setMessage(`Du wurdest getroffen! -${savestate.currentEnemy.attack - savestate.hero.def} HP`);
+                    })
                     this.shakeHero();
                     }
                     
@@ -329,6 +301,7 @@ export class HomePage implements OnInit {
 //=================== S T R O N G A T T A C K =============================================
     
     public strongAttack() {
+        this.decreaseCooldown();
             switch (this.currentMessage) {
                 case 1:
                     this.setMessage(`1 Neue cM: 2`);
@@ -352,6 +325,7 @@ export class HomePage implements OnInit {
 //========================================================================================================
 
     public specialAttack() {
+        this.specialCooldown = 5;
         this.storage.get('currentAccount').then((val) => {
             this.account = val;
             let savestate = this.account.savestate;
@@ -397,7 +371,7 @@ export class HomePage implements OnInit {
             }else{
                 const sleep = (milliseconds) => {
                         return new Promise(resolve => setTimeout(resolve, milliseconds))
-                    } 
+                } 
             let dmg = savestate.hero.weapon.dmg;
             this.dot = 2*savestate.hero.intelligenceMulti;
                             this.setMessage(`Meisterleistung! -${dmg*4} HP + DoT: ${this.dot} Runden`);

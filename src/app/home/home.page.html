@@ -34,7 +34,7 @@
       this.account.savestate.totalxp / this.account.savestate.nextThreshhold
     }}"
   ></ion-progress-bar>
-  
+
   <ion-grid>
     <ion-row>
       <ion-col>
@@ -167,10 +167,16 @@
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button class="attackBtn" (click)="specialAttack()" color="success">
-          Spezial
+        <ion-button
+          class="attackBtn"
+          (click)="specialAttack()"
+          color="success"
+          *ngIf="this.specialCooldown == 0">
+           Spezial
           <br />
           Angriff
+          <br/>
+          CD: 5
         </ion-button>
       </ion-col>
     </ion-row>
@@ -180,7 +186,6 @@
         <ion-button color="dark" fill="solid" (click)="openModal()">
           Ausrüstung
         </ion-button>
-        
       </ion-col>
       <ion-chip id="goldChip" color="warning" (click)="addGold()">
         Gold: {{ this.account.savestate.gold }}
