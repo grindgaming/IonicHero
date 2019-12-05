@@ -8,3 +8,8 @@ platforms
 *.log
 *.DS_Store
 www
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

@@ -1,23 +1,27 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-button color="danger" (click)="closeModal()">Zurück</ion-button>
-    <ion-title>Ausrüstung</ion-title>
+
+  
+    
+  
+
+
+<ion-content>  
+  <ion-button color="danger" (click)="closeModal()">Zurück</ion-button>
+    
     <ion-chip id="goldChip" color="warning" (click)="addGold()">
       Gold: {{ this.account.savestate.gold }}
     </ion-chip>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>  
   <ion-card>
     <ion-slides #mySlides>
     <ion-slide>
         <ion-grid>
-          <h1>Charakterinfoooooooo</h1>
+          <h1>Charakterinfo</h1>
           <br />
           <ion-row>
             <ion-col>
               <ion-card id="statList">
+                <ion-item>
+                  Angriff: {{this.account.savestate.hero.weapon.dmg}}
+                </ion-item>
                 <ion-item>
                   Rüstungswert: {{ this.account.savestate.hero.def }}
                 </ion-item>

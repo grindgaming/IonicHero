@@ -153,28 +153,28 @@
     <br />
     <ion-row>
       <ion-col>
-        <ion-button class="attackBtn" (click)="normalAttack()">
+        <ion-button class="attackBtn btn-lg" (click)="normalAttack()">
           Normaler
           <br />
           Angriff
         </ion-button>
       </ion-col>
       <ion-col>
-        <ion-button class="attackBtn" color="danger" (click)="strongAttack()">
+        <ion-button class="attackBtn btn-lg" color="danger" (click)="strongAttack()" *ngIf="this.account.savestate.strongCd == 0">
           Starker
-          <br />
           Angriff
+          <br/>
+          CD: 2
         </ion-button>
       </ion-col>
       <ion-col>
         <ion-button
-          class="attackBtn"
+          class="attackBtn btn-lg"
           (click)="specialAttack()"
           color="success"
-          *ngIf="this.specialCooldown == 0">
+          *ngIf="this.account.savestate.specialCd == 0">
            Spezial
-          <br />
-          Angriff
+          Angriff 
           <br/>
           CD: 5
         </ion-button>

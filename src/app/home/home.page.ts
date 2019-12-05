@@ -69,28 +69,56 @@ export class HomePage implements OnInit {
         });      
         return await modal.present();
     }
-    decreaseCooldown() {
-        if(this.specialCooldown > 0){
-            this.specialCooldown -= 1;
-        }
+
+    decreaseSpecialCooldown() {
+        this.storage.get('currentAccount').then((val) => {
+            this.account = val;
+                console.log(this.account.savestate.specialCd);
+            if(this.account.savestate.specialCd > 0){
+        console.log("decrease Special");
+
+                this.account.savestate.specialCd = this.account.savestate.specialCd - 1;
+                this.storage.set('currentAccount', this.account); 
+            }
+            this.storage.set('currentAccount', this.account); 
+            
+        })
+    }
+    decreaseStrongCooldown() {
+        console.log("decrease Strong");
+        this.storage.get('currentAccount').then((val) => {
+            this.account = val;
+            let savestate = this.account.savestate;
+            console.log(savestate.strongCd);
+            if(savestate.strongCd > 0){
+        console.log("decrease Strong");
+                
+            savestate.strongCd = savestate.strongCd - 1 ;
+            
+            }
+            this.account.savestate = savestate;
+            this.storage.set('currentAccount', this.account); 
+        })
     }
     //===================================================================================================
     //===================================================================================================
     //** ======== N O R M A L ===  A T T A C K ==========================================================
     //===================================================================================================
         normalAttack() {
-            this.decreaseCooldown();
-        this.storage.get('currentAccount').then((val) => {
-            this.account = val;
-            let savestate = this.account.savestate;
-            const lvl = savestate.level;
-            this.shakeEnemy();       
-             savestate.enemys = [
-                    new EnemyModel(lvl*12,lvl*12,'Gewöhnlicher Borg'),
-                    new EnemyModel(lvl*12,lvl*14,'Fetter Borg'),
-                    new EnemyModel(lvl*14,lvl*12,'Dünner Borg'),
-                    new EnemyModel(lvl*14,lvl*14,'Borg Häuptling'),
-                    new EnemyModel(lvl*5,lvl*5,'Baby Borg'),
+            
+            this.storage.get('currentAccount').then((val) => {
+                this.account = val;
+                let savestate = this.account.savestate;
+                const lvl = savestate.level;
+                this.shakeEnemy();       
+                savestate.enemys = [
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*16,'Fetter Borg'),
+                    new EnemyModel(lvl*16,lvl*14,'Dünner Borg'),
+                    new EnemyModel(lvl*16,lvl*16,'Borg Häuptling'),
+                    new EnemyModel(lvl*8,lvl*8,'Baby Borg'),
                      ]; 
             if(savestate.eHP <= 0) {
 //==========================
@@ -108,14 +136,16 @@ export class HomePage implements OnInit {
                     savestate.totalxp = 0;
                     savestate.nextThreshhold = savestate.expThreshholds[savestate.level];          
                     savestate.enemys = [                
-                    new EnemyModel(lvl*12,lvl*12,'Gewöhnlicher Borg'),
-                    new EnemyModel(lvl*12,lvl*14,'Fetter Borg'),
-                    new EnemyModel(lvl*14,lvl*12,'Dünner Borg'),
-                    new EnemyModel(lvl*14,lvl*14,'Borg Häuptling'),
-                    new EnemyModel(lvl*5,lvl*5,'Baby Borg'),                    
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*16,'Fetter Borg'),
+                    new EnemyModel(lvl*16,lvl*14,'Dünner Borg'),
+                    new EnemyModel(lvl*16,lvl*16,'Borg Häuptling'),
+                    new EnemyModel(lvl*8,lvl*8,'Baby Borg'),     
                      ]; 
                 }//=============================
-                savestate.currentEnemy = savestate.enemys[Math.floor(Math.random()*5)];
+                savestate.currentEnemy = savestate.enemys[Math.floor(Math.random()*7)];
                 savestate.eHP = savestate.currentEnemy.hp;
                 savestate.eMaxHP = savestate.currentEnemy.maxHp;
                 savestate.hero.hp = savestate.hero.maxHp;  
@@ -124,6 +154,14 @@ export class HomePage implements OnInit {
         //===================================
         //============ A N G R I F F ========
         //==================================
+                if(savestate.strongCd > 0){
+                    console.log("decrease Strong");
+                    savestate.strongCd = savestate.strongCd - 1 ;
+                }
+                if(savestate.specialCd > 0){
+                    console.log("decrease Special");
+                    savestate.specialCd = savestate.specialCd - 1 ;
+                }
                 const dmg = savestate.hero.weapon.dmg;
                 let strengthRoll: number = Math.floor(Math.random() * 101);
                 let agillityRoll: number = Math.floor(Math.random() * 101);
@@ -239,7 +277,7 @@ export class HomePage implements OnInit {
                 console.log(swift);
                 console.log(dot);   
                 if(dot){
-                    savestate.eHP -= savestate.currentEnemy.attack;
+                    savestate.eHP -= savestate.currentEnemy.attack*0.5;
                     sleep(1700).then(() => {
                         this.setMessage(`Du hast den Angriff des Gegners reflektiert!`);
                     })
@@ -301,23 +339,234 @@ export class HomePage implements OnInit {
 //=================== S T R O N G A T T A C K =============================================
     
     public strongAttack() {
-        this.decreaseCooldown();
-            switch (this.currentMessage) {
-                case 1:
-                    this.setMessage(`1 Neue cM: 2`);
-                    break;
-                case 2:
-                    this.setMessage(`2 Neue cM: 3`);
-                    break;
-                case 3:
-                    this.setMessage(`3 Neue cM: 4`);
-                    break;
-                case 4:
-                    this.setMessage(`4 Neue cM: 1`);
-                    break;
+        
+            this.storage.get('currentAccount').then((val) => {
+                this.account = val;
+                let savestate = this.account.savestate;
                 
-            }
-             
+                const lvl = savestate.level;
+                this.shakeEnemy();       
+                savestate.enemys = [
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*16,'Fetter Borg'),
+                    new EnemyModel(lvl*16,lvl*14,'Dünner Borg'),
+                    new EnemyModel(lvl*16,lvl*16,'Borg Häuptling'),
+                    new EnemyModel(lvl*8,lvl*8,'Baby Borg'),
+                     ]; 
+            if(savestate.eHP <= 0) {
+//==========================
+//======= G E G N E R - T O T ====
+//========================
+                this.shakeEnemy();        
+                savestate.gold += savestate.eMaxHP;
+                savestate.totalxp += savestate.eMaxHP*10;
+                if(savestate.totalxp >= savestate.nextThreshhold) {
+                    //==============================
+                    //==========L E V E L - U P ====
+                    //==============================
+                    savestate.level += 1;
+                    savestate.hero.maxHp += 10;
+                    savestate.totalxp = 0;
+                    savestate.nextThreshhold = savestate.expThreshholds[savestate.level];          
+                    savestate.enemys = [                
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*16,'Fetter Borg'),
+                    new EnemyModel(lvl*16,lvl*14,'Dünner Borg'),
+                    new EnemyModel(lvl*16,lvl*16,'Borg Häuptling'),
+                    new EnemyModel(lvl*8,lvl*8,'Baby Borg'),                
+                     ]; 
+                }//=============================
+                savestate.currentEnemy = savestate.enemys[Math.floor(Math.random()*5)];
+                savestate.eHP = savestate.currentEnemy.hp;
+                savestate.eMaxHP = savestate.currentEnemy.maxHp;
+                savestate.hero.hp = savestate.hero.maxHp;  
+//====================================               
+            }else {
+        //===================================
+        //============ A N G R I F F ========
+        //==================================
+                const dmg = savestate.hero.weapon.dmg;
+                let strengthRoll: number = Math.floor(Math.random() * 101);
+                let agillityRoll: number = Math.floor(Math.random() * 101);
+                let intelligenceRoll: number = Math.floor(Math.random() * 101);
+                let crit: boolean = false;
+                let swift: boolean = false;
+                let dot: boolean = false;
+                if(savestate.specialCd > 0){
+                    console.log("decrease Special");
+                    savestate.specialCd = savestate.specialCd - 1 ;
+                }
+                savestate.strongCd = 2;
+                const sleep = (milliseconds) => {
+                    return new Promise(resolve => setTimeout(resolve, milliseconds))
+                }
+                if(this.dot >0){   //============ WENN DOT AKTIV    
+                    if(savestate.hero.klasse=="Krieger"){
+                        this.setMessage(`Dein Gegner blutet stark! -${dmg} HP`);
+                        sleep(1700).then(() => {
+                        savestate.eHP -= dmg;
+                        this.dot -= 1;
+                        })
+                    }
+                    if(savestate.hero.klasse=="Waldläufer"){
+                        this.setMessage(`Dein Gegner ist geschwächt durch dein Gift! -${dmg} HP`);
+                        sleep(1700).then(() => {
+                        savestate.eHP -= dmg;
+                        })
+                        this.dot -= 1;
+                    }
+                    if(savestate.hero.klasse=="Magier"){
+                        this.setMessage(`Dein Gegner steht in Flammen! -${dmg} HP`);
+                        sleep(1700).then(() => {
+                        savestate.eHP -= dmg;
+                        this.dot -= 1;
+                        })
+                    }   
+                    sleep(1700).then(()=>{
+                        console.log("dot");
+                    })      
+                }        
+                //========== C R I T ? === S W I F T ? === D O T ? =====
+                //=========== KLASSEN MULTIPLIKATOR ================
+                if(strengthRoll <= savestate.hero.strength*2*savestate.hero.strengthMulti) {                  
+                        crit = true;             
+                }
+                if(agillityRoll <= savestate.hero.agillity*2*savestate.hero.agillityMulti) {         
+                        swift = true;               
+                }
+                if(intelligenceRoll <= savestate.hero.intelligence*2*savestate.hero.intelligenceMulti) {                 
+                        dot = true;            
+                }
+                //===================================
+                //======== D A M A G E === U N D ==== S P E C I A L E V E N T S ======
+                if(crit){
+                    if(swift){
+                        if(dot){
+                            this.dot = 2*savestate.hero.intelligenceMulti;
+                            this.setMessage(`Meisterleistung! -${dmg*4} HP + DoT: ${this.dot} Runden`);
+                                savestate.eHP -= dmg*2;         
+                                savestate.eHP -= dmg*2;                           
+                        }else{
+                            this.setMessage(`Doppelter Kritischer Treffer! -${ dmg*4 } HP`);                 
+                            (async () => {     
+                                savestate.eHP -= dmg*2;                     
+                                savestate.eHP -= dmg*2;
+                            })(); 
+                        }
+                    }else if(dot){
+                        this.setMessage(`Kritischer Treffer -${dmg*2} + DoT: ${this.dot} Runden`);
+                        savestate.eHP -= dmg*2;
+                        this.dot = 2*savestate.hero.intelligenceMulti;
+                    }else {
+                        this.setMessage(`Kritischer Treffer! -${dmg *2} HP`);
+                        savestate.eHP -= dmg*2;
+                    }
+                }
+                else if(swift){
+                    if(dot){
+                        this.setMessage(`Doppelter Treffer! + DoT  -${dmg * 2} HP`);  
+                        (async () => {     
+                            savestate.eHP -= dmg;                
+                            savestate.eHP -= dmg;
+                        })();
+                        this.dot = 2*savestate.hero.intelligenceMulti;          
+                    }else {   
+                        (async () => {  
+                            this.setMessage(`Doppelter Treffer:  -${dmg*2} HP`);
+                            savestate.eHP -= dmg;            
+                            savestate.eHP -= dmg;       
+                        })();             
+                    }
+                }
+                else if(dot){
+                    savestate.eHP -= dmg;
+                    this.dot = 2*savestate.hero.intelligenceMulti;
+                    this.setMessage(`Normaler Treffer: -${dmg} HP + DoT: ${this.dot} Runden`);            
+                }else{
+                    savestate.eHP -= dmg;
+                    this.setMessage(`Normaler Treffer: -${dmg} HP`);     
+                }         
+                strengthRoll = Math.floor(Math.random() * 100) +1;
+                agillityRoll = Math.floor(Math.random() * 100) +1;
+                intelligenceRoll = Math.floor(Math.random() * 100)+1;
+                crit = false;
+                swift = false;
+                dot = false;
+                console.log(savestate.hero.strength);
+                console.log(savestate.hero.agillity);
+                console.log(savestate.hero.intelligence);
+                if(strengthRoll <= savestate.hero.strength*savestate.hero.strengthMulti) {
+                    crit = true;
+                }
+                if(agillityRoll <= savestate.hero.agillity*savestate.hero.agillityMulti) {
+                    swift = true;
+                }
+                if(intelligenceRoll <= savestate.hero.intelligence*savestate.hero.intelligenceMulti) {
+                    dot = true;
+                }
+                console.log(crit);
+                console.log(swift);
+                console.log(dot);   
+                if(dot){
+                    savestate.eHP -= savestate.currentEnemy.attack*0.5;
+                    sleep(1700).then(() => {
+                        this.setMessage(`Du hast den Angriff des Gegners reflektiert!`);
+                    })
+                }else if(swift){
+                    sleep(1700).then(() => {
+                        this.setMessage(`Du weichst dem Angriff des Gegners gekonnt aus!`);
+                    })
+                }else if(crit){
+                    if(((savestate.currentEnemy.attack - savestate.hero.def)/1.5) <= 0){
+                        sleep(1700).then(() => {
+                            this.setMessage('Du blockst den Angriff deines Gegners erfolgreich!');
+                        })
+                    }else{
+                    savestate.hero.hp -= ((savestate.currentEnemy.attack - savestate.hero.def)/1.5 );
+                    sleep(1700).then(() => {
+                        this.setMessage(`Du versuchst den Angriff des Gegners zu blocken! -${((savestate.currentEnemy.attack - savestate.hero.def)/1.5).toFixed(2)}`);
+                        this.shakeHero();
+                    })
+                    }
+                }else{
+                    if(savestate.currentEnemy.attack - savestate.hero.def <= 0){
+                        sleep(1700).then(() => {
+                        this.setMessage('Der Treffer deines Gegners konnte dir nichtmal einen Kratzer zufügen...');
+                        })
+                    }else{
+                    savestate.hero.hp -= (savestate.currentEnemy.attack - savestate.hero.def);
+                    sleep(1700).then(() => {
+                    this.setMessage(`Du wurdest getroffen! -${savestate.currentEnemy.attack - savestate.hero.def} HP`);
+                    })
+                    this.shakeHero();
+                    }
+                    
+                }
+                //====== H E L D ==== T O T ====
+                if(savestate.hero.hp <= 0){
+                    console.log("tot");
+                    this.account.savestate.currentEnemy = this.account.savestate.enemys[Math.floor(Math.random()*7)];
+                    this.account.savestate.eHP = this.account.savestate.currentEnemy.hp;
+                    this.account.savestate.eMaxHP = this.account.savestate.currentEnemy.maxHp;
+                    
+                    savestate.hero.hp = savestate.hero.maxHp;
+                    if(savestate.totalxp >= 50) {
+                        savestate.totalxp -= 50;
+                    }
+                    savestate.totalxp
+                    alert("Du bist gestorben! Press F for Respect... Viel Glück beim nächsten Gegner!");
+                }  
+                       
+          }
+                   this.account.savestate = savestate;
+          this.storage.set('currentAccount', this.account); 
+      
+                
+        })
     }
 //========================================================================================================
 //========================================================================================================
@@ -325,19 +574,23 @@ export class HomePage implements OnInit {
 //========================================================================================================
 
     public specialAttack() {
-        this.specialCooldown = 5;
+        
         this.storage.get('currentAccount').then((val) => {
             this.account = val;
             let savestate = this.account.savestate;
+            
+            
             const lvl = savestate.level;
             this.shakeEnemy();
             
              savestate.enemys = [
-                    new EnemyModel(lvl*12,lvl*12,'Gewöhnlicher Borg'),
-                    new EnemyModel(lvl*12,lvl*14,'Fetter Borg'),
-                    new EnemyModel(lvl*14,lvl*12,'Dünner Borg'),
-                    new EnemyModel(lvl*14,lvl*14,'Borg Häuptling'),
-                    new EnemyModel(lvl*5,lvl*5,'Baby Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*14,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*14,lvl*16,'Fetter Borg'),
+                    new EnemyModel(lvl*16,lvl*14,'Dünner Borg'),
+                    new EnemyModel(lvl*16,lvl*16,'Borg Häuptling'),
+                    new EnemyModel(lvl*8,lvl*8,'Baby Borg'),
                      ]; 
                      if(savestate.eHP <= 0) {
 //==========================
@@ -355,11 +608,11 @@ export class HomePage implements OnInit {
                     savestate.nextThreshhold = savestate.expThreshholds[savestate.level];
                     
                     savestate.enemys = [
-                    new EnemyModel(lvl*12,lvl*12,'Gewöhnlicher Borg'),
-                    new EnemyModel(lvl*12,lvl*14,'Fetter Borg'),
-                    new EnemyModel(lvl*14,lvl*12,'Dünner Borg'),
-                    new EnemyModel(lvl*14,lvl*14,'Borg Häuptling'),
-                    new EnemyModel(lvl*5,lvl*5,'Baby Borg'),                 
+                    new EnemyModel(lvl*13,lvl*13,'Gewöhnlicher Borg'),
+                    new EnemyModel(lvl*13,lvl*15,'Fetter Borg'),
+                    new EnemyModel(lvl*15,lvl*13,'Dünner Borg'),
+                    new EnemyModel(lvl*15,lvl*15,'Borg Häuptling'),
+                    new EnemyModel(lvl*8,lvl*8,'Baby Borg'),              
                      ]; 
                 }//=============================
 
@@ -372,6 +625,7 @@ export class HomePage implements OnInit {
                 const sleep = (milliseconds) => {
                         return new Promise(resolve => setTimeout(resolve, milliseconds))
                 } 
+                savestate.specialCd = 5;
             let dmg = savestate.hero.weapon.dmg;
             this.dot = 2*savestate.hero.intelligenceMulti;
                             this.setMessage(`Meisterleistung! -${dmg*4} HP + DoT: ${this.dot} Runden`);
@@ -382,12 +636,16 @@ export class HomePage implements OnInit {
                                 })
                                 
                               
-                            savestate.eHP -= savestate.currentEnemy.attack;
+                            savestate.eHP -= savestate.currentEnemy.attack*0.5;
                     
                     sleep(1700).then(() => {
                        this.setMessage(`Du hast den Angriff des Gegners reflektiert!`); 
                     })       
                     
+            }
+            if(savestate.strongCd > 0){
+                console.log("decrease Strong");
+                savestate.strongCd = savestate.strongCd - 1 ;
             }
             this.account.savestate = savestate;
             this.storage.set('currentAccount', this.account);              

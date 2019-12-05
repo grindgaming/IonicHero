@@ -18,6 +18,8 @@ export class SavestateModel {
     public eMaxHP: number;
     public shopWeapons: WeaponModel[];
     public shopArmors: ArmorModel[];
+    public specialCd: number;
+    public strongCd: number;
 
 
 
@@ -26,6 +28,8 @@ export class SavestateModel {
         this.totalxp = 0;
         this.level = 1;
         this.stage = 1;
+        this.specialCd = 0;
+        this.strongCd = 0;
         this.expThreshholds = [1000, 250, 700,900,1200, 1400,2000,3000,5000, 7000,9000, 16000,35000,100000,200000,500000];
         this.nextThreshhold = this.getNextThreshhold();
         this.hero = new HeroModel();

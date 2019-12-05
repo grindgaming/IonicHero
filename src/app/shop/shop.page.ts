@@ -372,9 +372,9 @@ export class ShopPage implements OnInit {
     await alert.present();
  }    
     
-  swipeNext() {
+swipeNext() {
         this.slides.slideNext();
-    }
+}
     swipePrev() {
         this.slides.slidePrev();
     }
