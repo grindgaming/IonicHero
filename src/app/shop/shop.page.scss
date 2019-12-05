@@ -5,11 +5,23 @@
     font-size: 120%;
     font-weight: bold;
 }
+.slide-card {
+    background-color: black;
+    width: 100%;
+    
+}
+#content {
+    
+}
+#equipmentSlides {
+    padding-top: 0px;
+    margin-top: 0px;
+   height: 100%;
+   margin-bottom: 10%;
+}
 
 #statList {
-    height: 100%;
-    margin: 0px;
-    margin-top: 13%;
+    margin-bottom: 95%;
 }
 
 .inventory-col {
@@ -23,7 +35,8 @@
     margin:0px;
     margin-bottom: 0px;  
     border: solid;
-    border-color: black;
+    background-color: white;
+    border-color: primary;
     border-width: 1px;
     font-size: 90%;
     

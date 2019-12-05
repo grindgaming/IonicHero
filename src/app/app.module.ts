@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import {IonicStorageModule} from '@ionic/storage';
 import {ShopPageModule} from './shop/shop.module';
+import {TutorialPageModule} from './tutorial/tutorial.module';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions/ngx'; 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/nati
     IonicModule.forRoot(),
     AppRoutingModule,
     IonicStorageModule.forRoot(),
-    ShopPageModule
+    ShopPageModule,
+    TutorialPageModule
     ],
   providers: [
     StatusBar,

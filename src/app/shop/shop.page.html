@@ -1,18 +1,13 @@
 
-  
-    
-  
-
-
-<ion-content>  
+<ion-content id="content">  
   <ion-button color="danger" (click)="closeModal()">Zurück</ion-button>
     
     <ion-chip id="goldChip" color="warning" (click)="addGold()">
       Gold: {{ this.account.savestate.gold }}
     </ion-chip>
-  <ion-card>
-    <ion-slides #mySlides>
+    <ion-slides id="equipmentSlides" #mySlides pager="true" [options]="this.slideOpts">
     <ion-slide>
+      <ion-card class="slide-card">
         <ion-grid>
           <h1>Charakterinfo</h1>
           <br />
@@ -47,15 +42,17 @@
                   }}%
                 </ion-item>
               </ion-card>
-
+              
               <ion-button class="next" (click)="swipeNext()">
                 <ion-icon name="arrow-dropright-circle"></ion-icon>
               </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
+        </ion-card>
       </ion-slide>
       <ion-slide>
+        <ion-card class="slide-card">
         <ion-grid>
           <h1 style="bold">Inventar</h1>
 
@@ -311,8 +308,10 @@
             <ion-icon name="arrow-dropright-circle"></ion-icon>
           </ion-button>
         </ion-grid>
+        </ion-card>
       </ion-slide>
       <ion-slide>
+        <ion-card class="slide-card">
         <ion-grid>
           <h1>Ausrüstungsverkauf</h1>
           <br />
@@ -909,6 +908,7 @@
               </ng-template>
             </ion-col>
           </ion-row>
+          <br/>
           <ion-row>
             <ion-col>
               <ion-button class="prev" (click)="swipePrev()">
@@ -917,7 +917,7 @@
             </ion-col>
           </ion-row>
         </ion-grid>
+        </ion-card>
       </ion-slide>
     </ion-slides>
-    </ion-card>
 </ion-content>
