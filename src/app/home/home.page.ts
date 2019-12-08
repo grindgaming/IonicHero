@@ -106,7 +106,7 @@ async tutorialAlert() {
   showTutorial() {
       this.storage.get('currentAccount').then((val) => {
           this.account = val;
-          this.account.savestate.tutorial = false;
+          this.account.savestate.tutorial = true;
           this.storage.set('currentAccount', this.account);         
           this.openTutorialModal();
       })
