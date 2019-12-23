@@ -7,9 +7,11 @@ import anime from 'animejs/lib/anime.es'
   styleUrls: ['./tutorial.page.scss'],
 })
 export class TutorialPage implements OnInit {
-
-  constructor(private modalController: ModalController) {
-
+  private w: number;
+  private h: number;
+  constructor(private modalController: ModalController,private platform: Platform) {
+      this.h = this.platform.height();
+      this.w = this.platform.width();
    }
 
   ngOnInit() {
@@ -18,21 +20,63 @@ export class TutorialPage implements OnInit {
 
 positionPNG() {
         anime({
-            targets: '#babyborgcard',
+            targets: '#babyborg',
             keyframes: [
-            {translateX: 30},
-            
-            ],duration: 10
+              {
+                translateX: this.w/1.5,
+              },
+              {
+                translateX: this.w/0.3,
+              },         
+              {
+                translateY: this.h/0.3,
+                zIndex: -100
+
+              },
+              {
+                translateX: -this.w/0.3,
+                translateY: 0,
+                zIndex: 100
+
+              },
+              
+            ],duration: 2500,
+            loop: true
+        });
+        anime({
+            targets: '#commonborg',
+            keyframes: [
+            {translateY: -this.h/6.8,
+            translateX: this.w/1.8,
+            zIndex: -5},
+            ],duration: 1
   
         });
         anime({
-            targets: '#commonborgcard',
+            targets: '#slimborg',
             keyframes: [
-            {translateY: -30},
-            
-            ],duration: 10
-  
+            {translateY: -this.h/3.5,
+            translateX:this.w/2.4,
+            zIndex: -10},
+            ],duration: 1
         });
+        anime({
+            targets: '#fatborg',
+            keyframes: [
+            {translateY: -this.h/2.32,
+            translateX: this.w/3,
+            zIndex: -15},
+            ],duration: 1
+        });
+        anime({
+            targets: '#borgchief',
+            keyframes: [
+            {translateY: -this.h/1.74,
+            translateX: 100,
+            zIndex: -20},
+            ],duration: 1
+        });
+        
     }
 
 async closeModal() {
