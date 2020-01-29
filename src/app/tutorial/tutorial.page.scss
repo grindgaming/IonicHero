@@ -1,8 +1,30 @@
 .borgcard {
+    position: absolute;
     width: 30%;
     padding-right: 0px;
     padding-left: 0px;
 }
 .borg {
     margin: 0px;
+}
+
+#babyborg{
+    left: 60%;
+    z-index: 10;
+}
+#commonborg {
+    z-index: 9;
+    left: 50%;
+}
+#slimborg {
+    z-index: 8;
+    left: 40%;
+}
+#fatborg {
+    z-index: 7;
+    left: 30%;
+}
+#borgchief {
+    z-index: 6;
+    left: 20%;
 }

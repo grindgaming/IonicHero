@@ -23,60 +23,12 @@ positionPNG() {
             targets: '#babyborg',
             keyframes: [
               {
-                translateX: this.w/1.5,
-              },
-              {
-                translateX: this.w/0.3,
-              },         
-              {
-                translateY: this.h/0.3,
-                zIndex: -100
 
               },
-              {
-                translateX: -this.w/0.3,
-                translateY: 0,
-                zIndex: 100
-
-              },
-              
-            ],duration: 2500,
-            loop: true
+            ],   
+            duration: 1,
+            
         });
-        anime({
-            targets: '#commonborg',
-            keyframes: [
-            {translateY: -this.h/6.8,
-            translateX: this.w/1.8,
-            zIndex: -5},
-            ],duration: 1
-  
-        });
-        anime({
-            targets: '#slimborg',
-            keyframes: [
-            {translateY: -this.h/3.5,
-            translateX:this.w/2.4,
-            zIndex: -10},
-            ],duration: 1
-        });
-        anime({
-            targets: '#fatborg',
-            keyframes: [
-            {translateY: -this.h/2.32,
-            translateX: this.w/3,
-            zIndex: -15},
-            ],duration: 1
-        });
-        anime({
-            targets: '#borgchief',
-            keyframes: [
-            {translateY: -this.h/1.74,
-            translateX: 100,
-            zIndex: -20},
-            ],duration: 1
-        });
-        
     }
 
 async closeModal() {
