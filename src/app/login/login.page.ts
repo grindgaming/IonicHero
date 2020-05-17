@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import {NavController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {AccountModel} from '../models/account-model';
 import { NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions/ngx';

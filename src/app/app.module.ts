@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler, Injectable } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -12,6 +12,20 @@ import {IonicStorageModule} from '@ionic/storage';
 import {ShopPageModule} from './shop/shop.module';
 import {TutorialPageModule} from './tutorial/tutorial.module';
 import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/native-page-transitions/ngx'; 
+// import * as Sentry from "@sentry/browser";
+
+// Sentry.init({
+//   dsn: "https://f9feb058c17f4e888a697169f095c6f4@o252522.ingest.sentry.io/5207752"
+// });
+
+// @Injectable()
+// export class SentryErrorHandler implements ErrorHandler {
+//   constructor() { }
+//   handleError(error) {
+//     const eventId = Sentry.captureException(error.originalError || error);
+//     Sentry.showReportDialog({ eventId });
+//   }
+// }
 
 @NgModule({
   declarations: [AppComponent],
@@ -28,7 +42,7 @@ import {NativePageTransitions, NativeTransitionOptions} from '@ionic-native/nati
     StatusBar,
     SplashScreen,
     NativePageTransitions,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass:  IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
